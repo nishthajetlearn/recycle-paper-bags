@@ -4,7 +4,6 @@ import random
 
 #variables
 Font_option=(255,255,255)
-
 WIDTH=800
 HEIGHT=600
 #marking the center oh the height and width
@@ -29,14 +28,14 @@ def draw():
     global items, current_level, game_over, game_complete
     screen.clear()
     #blit
-    screen.blit("bground,(0,0)")
+    screen.blit("bground",(0,0))
     #dislplay_message
     if game_over:
-        display_message("Game Over,Try again")
+        display_message("Game Over","Try again")
     elif game_complete:
-        display_message("You WON, Good Job")
+        display_message("You WON", "Good Job")
     else:
-        for items in items:
+        for item in items:
             item.draw()
 
 def update():
@@ -57,6 +56,7 @@ def get_options_to_create(number_of_extra_items):
         random_option=random.choice(ITEMS)
         items_to_create.append(random_option)
     return items_to_create
+
 def create_items(items_to_create):
     new_items=[]
     for option in items_to_create:
@@ -77,7 +77,7 @@ def animate_items(items_to_animate):
     for item in items_to_animate:
         duration=START_SPEED-current_level
         item.anchor=("center","bottom")
-        animation=animate(items,duration=duration,on_finished=handle_game_over,y=HEIGHT)  
+        animation=animate(item ,duration=duration,on_finished=handle_game_over,y=HEIGHT)  
         animations.append(animation)
 
 
@@ -85,11 +85,11 @@ def handle_game_over():
     global game_over
     game_over=True
 
-def mouse_down(pos):
+def on_mouse_down(pos):
     global items,current_level
-    for items in items:
+    for item in items:
         if item.collidepoint(pos):
-            if "paper" in items.image:
+            if "paper" in item.image:
                 handle_game_complete()
             else:
                 handle_game_over()    
@@ -114,5 +114,3 @@ def display_message(heading_text,sub_heading_text):
     screen.draw.text(sub_heading_text,fontsize=30,center=(CENTRE_X,CENTRE_Y+30),color="white")
 
 pgzrun.go()
-
-
